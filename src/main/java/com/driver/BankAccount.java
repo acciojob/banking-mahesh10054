@@ -36,32 +36,34 @@ public class BankAccount {
     public void setMinBalance(double minBalance) {
         this.minBalance = minBalance;
     }
-    public void findNDigitNumbers(String result, int n, int target)
-    {
-        if (n > 0 && target >= 0)
-        {
-            char d = '0';
-            if (result.equals("")) {
-                d = '1';
-            }
-            while (d <= '9')
-            {
-                findNDigitNumbers(result + d, n - 1, target - (d - '0'));
-                d++;
-            }
-        }
-        else if (n == 0 && target == 0) {
-            accountNumber = result;
-        }
-    }
+
     public String generateAccountNumber(int digits, int sum) throws Exception{
-        findNDigitNumbers("",digits,sum);
-        if(accountNumber != null)
+        if(sum > digits*9)
         {
-            return accountNumber;
+            throw new Exception("Account Number can not be generated");
         }
 
-        throw new Exception("Account Number can not be generated");
+        String accountNo = "";
+
+        int quotient = sum/9;
+        int reminder = sum%9;
+
+        while(quotient-- > 0)
+        {
+            accountNo += "9";
+        }
+        if(reminder != 0) {
+            accountNo += reminder;
+        }
+
+        int remDigit = digits - accountNo.length();
+
+        while(remDigit-- > 0)
+        {
+            accountNo += "0";
+        }
+
+        return accountNo;
     }
 
     public void deposit(double amount) {
